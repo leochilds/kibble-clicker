@@ -14,15 +14,37 @@ import { getTrickByLevel, getNextTrick, isMaxLevel } from '../config/tricks.js';
  */
 function formatReward(reward) {
   const parts = [];
-  if (reward.kibble) {
-    parts.push(`${reward.kibble} 🦴`);
-  }
-  if (reward.chickenTreats) {
-    parts.push(`${reward.chickenTreats} 🍗`);
-  }
-  if (reward.steakTreats) {
-    parts.push(`${reward.steakTreats} 🥩`);
-  }
+  
+  // Basic Treats
+  if (reward.kibble) parts.push(`${reward.kibble} 🦴`);
+  if (reward.chickenTreats) parts.push(`${reward.chickenTreats} 🍗`);
+  if (reward.steakTreats) parts.push(`${reward.steakTreats} 🥩`);
+  
+  // Premium Treats
+  if (reward.baconStrips) parts.push(`${reward.baconStrips} 🥓`);
+  if (reward.salmonFillets) parts.push(`${reward.salmonFillets} 🐟`);
+  if (reward.lambChops) parts.push(`${reward.lambChops} 🍖`);
+  
+  // Gourmet Treats
+  if (reward.lobsterTails) parts.push(`${reward.lobsterTails} 🦞`);
+  if (reward.wagyuBeef) parts.push(`${reward.wagyuBeef} 🥩✨`);
+  if (reward.truffleTreats) parts.push(`${reward.truffleTreats} 🍄`);
+  
+  // Exotic Treats
+  if (reward.goldenBones) parts.push(`${reward.goldenBones} 🦴✨`);
+  if (reward.dragonFruit) parts.push(`${reward.dragonFruit} 🐉`);
+  if (reward.unicornKibble) parts.push(`${reward.unicornKibble} 🦄`);
+  
+  // Legendary Treats
+  if (reward.phoenixFeathers) parts.push(`${reward.phoenixFeathers} 🔥`);
+  if (reward.cosmicCookies) parts.push(`${reward.cosmicCookies} ⭐`);
+  if (reward.celestialChews) parts.push(`${reward.celestialChews} 🌙`);
+  
+  // Mythical Treats
+  if (reward.quantumBiscuits) parts.push(`${reward.quantumBiscuits} ⚛️`);
+  if (reward.infinityTreats) parts.push(`${reward.infinityTreats} ♾️`);
+  if (reward.singularitySnacks) parts.push(`${reward.singularitySnacks} 🌌`);
+  
   return parts.join(' + ') || '0 🦴';
 }
 
