@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kibble Clicker - Reducer Tests</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      background: #1e1e1e;
+      color: #d4d4d4;
+    }
+    h1 {
+      color: #4ec9b0;
+    }
+    .test {
+      margin: 20px 0;
+      padding: 15px;
+      background: #2d2d2d;
+      border-radius: 5px;
+      border-left: 4px solid #4ec9b0;
+    }
+    .test.failed {
+      border-left-color: #f48771;
+    }
+    .test-name {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #dcdcaa;
+    }
+    .pass {
+      color: #4ec9b0;
+    }
+    .fail {
+      color: #f48771;
+    }
+    .summary {
+      margin-top: 30px;
+      padding: 20px;
+      background: #2d2d2d;
+      border-radius: 5px;
+      font-size: 1.2em;
+    }
+    code {
+      background: #1e1e1e;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #ce9178;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Kibble Clicker - Reducer Tests</h1>
+  <div id="test-results"></div>
+  <div id="summary" class="summary"></div>
+
+  <script type="module">
+    import { initialState } from '../src/core/state.js';
+    import { reducer } from '../src/core/reducer.js';
+    import { clickTrick, reset } from '../src/actions/actions.js';
+
+    // Simple test framework
+    class TestRunner {
+      constructor() {
+        this.tests = [];
+        this.passed = 0;
+        this.failed = 0;
+      }
+
+      test(name, fn) {
+        this.tests.push({ name, fn });
+      }
+
+      assert(condition, message) {
+        if (!condition) {
+          throw new Error(message || 'Assertion failed');
+        }
+      }
+
+      assertEqual(actual, expected, message) {
+        if (actual !== expected) {
+          throw new Error(
+            message || `Expected ${expected}, but got ${actual}`
+          );
+        }
+      }
+
+      assertDeepEqual(actual, expected, message) {
+        if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+          throw new Error(
+            message || `Expected ${JSON.stringify(expected)}, but got ${JSON.stringify(actual)}`
+          );
+        }
+      }
+
+      run() {
+        const resultsDiv = document.getElementById('test-results');
+        
+        this.tests.forEach(({ name, fn }) => {
+          const testDiv = document.createElement('div');
+          testDiv.className = 'test';
+          
+          const testName = document.createElement('div');
+          testName.className = 'test-name';
+          testName.textContent = name;
+          testDiv.appendChild(testName);
+
+          const result = document.createElement('div');
+          
+          try {
+            fn.call(this);
+            result.innerHTML = '<span class="pass">✓ PASSED</span>';
+            this.passed++;
+          } catch (error) {
+            result.innerHTML = `<span class="fail">✗ FAILED: ${error.message}</span>`;
+            testDiv.classList.add('failed');
+            this.failed++;
+          }
+          
+          testDiv.appendChild(result);
+          resultsDiv.appendChild(testDiv);
+        });
+
+        // Display summary
+        const summaryDiv = document.getElementById('summary');
+        const total = this.tests.length;
+        const passRate = ((this.passed / total) * 100).toFixed(1);
+        
+        summaryDiv.innerHTML = `
+          <strong>Test Summary</strong><br>
+          Total: ${total} | 
+          <span class="pass">Passed: ${this.passed}</span> | 
+          <span class="fail">Failed: ${this.failed}</span> | 
+          Pass Rate: ${passRate}%
+        `;
+      }
+    }
+
+    // Create test runner
+    const runner = new TestRunner();
+
+    // Tests
+    runner.test('Initial state should have 0 kibble', function() {
+      this.assertEqual(initialState.kibble, 0);
+      this.assertEqual(initialState.totalClicks, 0);
+    });
+
+    runner.test('CLICK_TRICK should increase kibble by 1', function() {
+      const newState = reducer(initialState, clickTrick());
+      this.assertEqual(newState.kibble, 1);
+      this.assertEqual(newState.totalClicks, 1);
+    });
+
+    runner.test('Multiple CLICK_TRICK actions should stack', function() {
+      let state = initialState;
+      state = reducer(state, clickTrick());
+      state = reducer(state, clickTrick());
+      state = reducer(state, clickTrick());
+      
+      this.assertEqual(state.kibble, 3);
+      this.assertEqual(state.totalClicks, 3);
+    });
+
+    runner.test('RESET action should reset kibble and clicks to 0', function() {
+      let state = initialState;
+      state = reducer(state, clickTrick());
+      state = reducer(state, clickTrick());
+      state = reducer(state, reset());
+      
+      this.assertEqual(state.kibble, 0);
+      this.assertEqual(state.totalClicks, 0);
+    });
+
+    runner.test('Reducer should not mutate original state', function() {
+      const originalState = { ...initialState };
+      const newState = reducer(initialState, clickTrick());
+      
+      this.assertDeepEqual(initialState, originalState, 'Original state was mutated');
+      this.assert(newState !== initialState, 'New state is same reference as old state');
+    });
+
+    runner.test('Unknown action should return state unchanged', function() {
+      const unknownAction = { type: 'UNKNOWN_ACTION' };
+      const newState = reducer(initialState, unknownAction);
+      
+      this.assertDeepEqual(newState, initialState);
+    });
+
+    runner.test('Action sequence should be deterministic', function() {
+      // Sequence 1
+      let state1 = initialState;
+      state1 = reducer(state1, clickTrick());
+      state1 = reducer(state1, clickTrick());
+      state1 = reducer(state1, reset());
+      state1 = reducer(state1, clickTrick());
+      
+      // Sequence 2 (identical)
+      let state2 = initialState;
+      state2 = reducer(state2, clickTrick());
+      state2 = reducer(state2, clickTrick());
+      state2 = reducer(state2, reset());
+      state2 = reducer(state2, clickTrick());
+      
+      this.assertDeepEqual(state1, state2, 'Same action sequence produced different results');
+    });
+
+    runner.test('State should preserve version through actions', function() {
+      let state = reducer(initialState, clickTrick());
+      this.assertEqual(state.version, initialState.version);
+    });
+
+    // Run all tests
+    runner.run();
+
+    console.log('✅ Tests completed!');
+    console.log('You can also test manually:');
+    console.log('  reducer(initialState, clickTrick())');
+  </script>
+</body>
+</html>

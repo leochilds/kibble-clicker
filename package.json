@@ -1,0 +1,26 @@
+{
+  "name": "kibble-clicker",
+  "version": "0.1.0",
+  "description": "A clicker game built with pure functional programming principles",
+  "type": "module",
+  "scripts": {
+    "dev": "http-server -p 8000 -c-1",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage"
+  },
+  "keywords": [
+    "clicker",
+    "game",
+    "functional-programming",
+    "pure-functions"
+  ],
+  "author": "",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "http-server": "^14.1.1"
+  }
+}

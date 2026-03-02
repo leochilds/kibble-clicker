@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kibble Clicker - Replay Suite</title>
+  <link rel="stylesheet" href="replay.css">
+</head>
+<body>
+  <div class="replay-container">
+    <header class="replay-header">
+      <h1>🎬 Replay Suite</h1>
+      <p class="subtitle">Step through action sequences to debug and visualize state changes</p>
+    </header>
+
+    <div class="main-content">
+      <!-- Import Panel -->
+      <section class="import-panel">
+        <h2>📥 Import Bug Report</h2>
+        <textarea id="bug-report-json" placeholder="Paste bug report JSON here..." rows="4"></textarea>
+        <button id="import-bug-report" class="import-btn">Load Bug Report</button>
+      </section>
+
+      <!-- Scenario Selector -->
+      <section class="scenario-panel">
+        <h2>Test Scenarios</h2>
+        <div class="scenario-buttons">
+          <button class="scenario-btn" data-scenario="single-click">Single Click</button>
+          <button class="scenario-btn" data-scenario="five-clicks">5 Clicks</button>
+          <button class="scenario-btn" data-scenario="ten-clicks">10 Clicks</button>
+          <button class="scenario-btn" data-scenario="click-and-reset">Click & Reset</button>
+          <button class="scenario-btn" data-scenario="complex">Complex Sequence</button>
+          <button class="scenario-btn" data-scenario="stress-test">Stress Test (50)</button>
+        </div>
+        <div class="custom-scenario">
+          <h3>Custom Actions</h3>
+          <div class="custom-controls">
+            <button id="add-click" class="custom-btn">+ Click</button>
+            <button id="add-reset" class="custom-btn">+ Reset</button>
+            <button id="clear-custom" class="custom-btn danger">Clear</button>
+            <button id="run-custom" class="custom-btn primary">Run Custom</button>
+          </div>
+          <div id="custom-actions-display" class="custom-actions-display"></div>
+        </div>
+      </section>
+
+      <!-- Game Preview -->
+      <section class="game-preview-panel">
+        <h2>Game State Preview</h2>
+        <div class="game-preview">
+          <div class="kibble-display-preview">
+            <div class="kibble-icon-preview">🦴</div>
+            <div id="preview-kibble" class="kibble-count-preview">0</div>
+            <div class="kibble-label-preview">KIBBLE</div>
+          </div>
+          <div class="stats-preview">
+            <div class="stat-item-preview">
+              <span class="stat-label-preview">Total Clicks:</span>
+              <span id="preview-clicks" class="stat-value-preview">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- State Inspector -->
+      <section class="state-panel">
+        <h2>State Inspector</h2>
+        <div class="state-info">
+          <div class="state-position">
+            <strong>Position:</strong> 
+            <span id="current-index">0</span> / <span id="total-actions">0</span>
+          </div>
+          <div class="state-json">
+            <strong>Current State:</strong>
+            <pre id="state-display">{}</pre>
+          </div>
+          <div class="state-diff" id="state-diff-container" style="display: none;">
+            <strong>Changes:</strong>
+            <pre id="state-diff"></pre>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Timeline -->
+    <section class="timeline-section">
+      <h2>Action Timeline</h2>
+      <div class="timeline-container">
+        <div id="timeline" class="timeline"></div>
+      </div>
+    </section>
+
+    <!-- Playback Controls -->
+    <section class="controls-section">
+      <h2>Playback Controls</h2>
+      <div class="controls">
+        <button id="btn-first" class="control-btn" title="Go to start">⏮️ First</button>
+        <button id="btn-prev" class="control-btn" title="Previous action">◀️ Prev</button>
+        <button id="btn-play" class="control-btn primary" title="Auto-play">▶️ Play</button>
+        <button id="btn-next" class="control-btn" title="Next action">Next ▶️</button>
+        <button id="btn-last" class="control-btn" title="Go to end">⏭️ Last</button>
+      </div>
+      <div class="playback-speed">
+        <label>Speed: <span id="speed-label">1x</span></label>
+        <input type="range" id="speed-slider" min="0.5" max="3" step="0.5" value="1">
+      </div>
+    </section>
+
+    <!-- Action History List -->
+    <section class="history-section">
+      <h2>Action History</h2>
+      <div id="action-list" class="action-list"></div>
+    </section>
+  </div>
+
+  <script type="module" src="replay.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kibble Clicker 🐾</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🐾 Kibble Clicker</h1>
+      <p class="subtitle">Click the trick button to earn kibble!</p>
+    </header>
+
+    <main>
+      <div class="game-area">
+        <!-- Kibble Display -->
+        <div class="kibble-display">
+          <div class="kibble-count-wrapper">
+            <span class="kibble-icon">🦴</span>
+            <span id="kibble-count" class="kibble-count">0</span>
+            <span class="kibble-label">Kibble</span>
+          </div>
+        </div>
+
+        <!-- Main Action Button -->
+        <div class="button-area">
+          <button id="trick-button" class="trick-button">
+            🎯 Do a Trick!
+          </button>
+          <p class="hint">Click or press spacebar</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+          <div class="stat-item">
+            <span class="stat-label">Total Clicks:</span>
+            <span id="total-clicks" class="stat-value">0</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-buttons">
+        <button id="bug-report-button" class="bug-report-button">🐛 Report Bug</button>
+        <button id="reset-button" class="reset-button">Reset Game</button>
+      </div>
+      <p class="debug-info">
+        Open console for debugging tools
+      </p>
+    </footer>
+  </div>
+
+  <!-- Load the application as ES6 module -->
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
