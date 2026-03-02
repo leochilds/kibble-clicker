@@ -73,34 +73,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-}
-
-.kibble-icon {
-  font-size: 3em;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.kibble-count {
-  font-size: 4em;
-  font-weight: bold;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
-}
-
-.kibble-count.updated {
-  transform: scale(1.2);
-  color: #ffeaa7;
+  gap: 15px;
 }
 
 .kibble-label {
@@ -109,6 +82,60 @@ h1 {
   opacity: 0.9;
   text-transform: uppercase;
   letter-spacing: 2px;
+}
+
+.kibble-count {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.kibble-count.updated {
+  transform: scale(1.05);
+}
+
+.treat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+  min-width: 80px;
+  justify-content: center;
+}
+
+.treat-item:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.treat-amount {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.treat-emoji {
+  font-size: 1.8em;
+  animation: float 3s ease-in-out infinite;
+  animation-delay: calc(var(--item-index, 0) * 0.2s);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 /* Button Area */

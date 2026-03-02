@@ -5,7 +5,7 @@
  * The UI is a pure function of the state.
  */
 
-import { getTrickByLevel, getNextTrick, isMaxLevel } from '../config/tricks.js';
+import { getTrickByLevel, getNextTrick, isMaxLevel, REWARD_VALUES } from '../config/tricks.js';
 
 /**
  * Format reward object into a readable string
@@ -49,14 +49,82 @@ function formatReward(reward) {
 }
 
 /**
+ * Get all non-zero treats from state with their display info
+ * @param {Object} state - Current application state
+ * @returns {Array} Array of {type, amount, emoji, value}
+ */
+function getInventory(state) {
+  const treatInfo = {
+    kibble: '🦴',
+    chickenTreats: '🍗',
+    steakTreats: '🥩',
+    baconStrips: '🥓',
+    salmonFillets: '🐟',
+    lambChops: '🍖',
+    lobsterTails: '🦞',
+    wagyuBeef: '🥩✨',
+    truffleTreats: '🍄',
+    goldenBones: '🦴✨',
+    dragonFruit: '🐉',
+    unicornKibble: '🦄',
+    phoenixFeathers: '🔥',
+    cosmicCookies: '⭐',
+    celestialChews: '🌙',
+    quantumBiscuits: '⚛️',
+    infinityTreats: '♾️',
+    singularitySnacks: '🌌'
+  };
+  
+  const inventory = [];
+  for (const [type, emoji] of Object.entries(treatInfo)) {
+    const amount = state[type] || 0;
+    if (amount > 0) {
+      inventory.push({
+        type,
+        amount,
+        emoji,
+        value: REWARD_VALUES[type] || 1
+      });
+    }
+  }
+  
+  // Sort by value (descending) so higher-value treats show first
+  return inventory.sort((a, b) => b.value - a.value);
+}
+
+/**
+ * Calculate total inventory value
+ * @param {Object} state - Current application state
+ * @returns {number} Total value in kibble
+ */
+function getTotalInventoryValue(state) {
+  let total = 0;
+  for (const [type, value] of Object.entries(REWARD_VALUES)) {
+    total += (state[type] || 0) * value;
+  }
+  return total;
+}
+
+/**
  * Render function - updates the DOM based on state
  * @param {Object} state - Current application state
  */
 export function render(state) {
-  // Update kibble count
+  // Update inventory display
   const kibbleCount = document.getElementById('kibble-count');
   if (kibbleCount) {
-    kibbleCount.textContent = state.kibble;
+    const inventory = getInventory(state);
+    
+    if (inventory.length === 0) {
+      // No treats yet
+      kibbleCount.innerHTML = '<span class="treat-item"><span class="treat-amount">0</span> <span class="treat-emoji">🦴</span></span>';
+    } else {
+      // Show all treats
+      const treatsHtml = inventory.map(treat => 
+        `<span class="treat-item"><span class="treat-amount">${treat.amount}</span> <span class="treat-emoji">${treat.emoji}</span></span>`
+      ).join('');
+      kibbleCount.innerHTML = treatsHtml;
+    }
   }
 
   // Update total clicks
@@ -124,7 +192,8 @@ export function render(state) {
       
       // Enable/disable upgrade button based on affordability
       if (upgradeButton) {
-        const canAfford = state.kibble >= nextTrick.cost;
+        const totalValue = getTotalInventoryValue(state);
+        const canAfford = totalValue >= nextTrick.cost;
         upgradeButton.disabled = !canAfford;
         upgradeButton.classList.toggle('disabled', !canAfford);
       }
