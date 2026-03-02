@@ -8,6 +8,7 @@
 // Action Types
 export const CLICK_TRICK = 'CLICK_TRICK';
 export const RESET = 'RESET';
+export const PURCHASE_UPGRADE = 'PURCHASE_UPGRADE';
 
 // Action Creators
 export const clickTrick = () => ({
@@ -16,4 +17,8 @@ export const clickTrick = () => ({
 
 export const reset = () => ({
   type: RESET
+});
+
+export const purchaseUpgrade = () => ({
+  type: PURCHASE_UPGRADE
 });

@@ -152,6 +152,181 @@ h1 {
   font-style: italic;
 }
 
+/* Current Trick Display */
+.current-trick {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.current-trick h3 {
+  color: #2d3436;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.trick-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.trick-name {
+  font-size: 2em;
+  font-weight: bold;
+  color: #2d3436;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.trick-level {
+  font-size: 1.2em;
+  padding: 5px 15px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  color: #2d3436;
+  font-weight: bold;
+}
+
+.trick-reward {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.reward-label {
+  font-size: 0.9em;
+  color: #2d3436;
+  opacity: 0.8;
+}
+
+.reward-value {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #2d3436;
+}
+
+/* Training School */
+.training-school {
+  background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: var(--shadow);
+}
+
+.training-school h3 {
+  color: white;
+  font-size: 1.3em;
+  margin-bottom: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.next-trick-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.next-trick-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.next-label {
+  font-size: 0.9em;
+  color: #636e72;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.next-trick-name {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #6c5ce7;
+}
+
+.next-trick-description {
+  font-size: 0.95em;
+  color: #636e72;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.next-trick-reward {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: #f7f7f7;
+  border-radius: 8px;
+}
+
+.upgrade-button {
+  font-size: 1.2em;
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #00b894, #00cec9);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.upgrade-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  background: linear-gradient(135deg, #00cec9, #00b894);
+}
+
+.upgrade-button:active:not(:disabled),
+.upgrade-button.clicked:not(:disabled) {
+  transform: translateY(0) scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.upgrade-button:disabled {
+  background: #b2bec3;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.upgrade-button .button-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.max-level-message {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  font-size: 1.3em;
+  color: #fdcb6e;
+  font-weight: bold;
+}
+
 /* Stats */
 .stats {
   background: var(--background);
@@ -160,11 +335,11 @@ h1 {
   display: flex;
   justify-content: center;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .stat-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 5px;
 }

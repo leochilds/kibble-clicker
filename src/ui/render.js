@@ -5,6 +5,27 @@
  * The UI is a pure function of the state.
  */
 
+import { getTrickByLevel, getNextTrick, isMaxLevel } from '../config/tricks.js';
+
+/**
+ * Format reward object into a readable string
+ * @param {Object} reward - Reward object
+ * @returns {string} Formatted reward string
+ */
+function formatReward(reward) {
+  const parts = [];
+  if (reward.kibble) {
+    parts.push(`${reward.kibble} 🦴`);
+  }
+  if (reward.chickenTreats) {
+    parts.push(`${reward.chickenTreats} 🍗`);
+  }
+  if (reward.steakTreats) {
+    parts.push(`${reward.steakTreats} 🥩`);
+  }
+  return parts.join(' + ') || '0 🦴';
+}
+
 /**
  * Render function - updates the DOM based on state
  * @param {Object} state - Current application state
@@ -20,6 +41,72 @@ export function render(state) {
   const totalClicks = document.getElementById('total-clicks');
   if (totalClicks) {
     totalClicks.textContent = state.totalClicks;
+  }
+
+  // Update total earned
+  const totalEarned = document.getElementById('total-earned');
+  if (totalEarned) {
+    totalEarned.textContent = state.totalKibbleEarned;
+  }
+
+  // Update current trick display
+  const currentTrick = getTrickByLevel(state.trickLevel);
+  const currentTrickName = document.getElementById('current-trick-name');
+  const currentTrickLevel = document.getElementById('current-trick-level');
+  const currentTrickReward = document.getElementById('current-trick-reward');
+  
+  if (currentTrickName) {
+    currentTrickName.textContent = currentTrick.name;
+  }
+  if (currentTrickLevel) {
+    currentTrickLevel.textContent = state.trickLevel;
+  }
+  if (currentTrickReward) {
+    currentTrickReward.textContent = formatReward(currentTrick.reward);
+  }
+
+  // Update training school
+  const maxLevel = isMaxLevel(state.trickLevel);
+  const nextTrickCard = document.querySelector('.next-trick-card');
+  const maxLevelMessage = document.getElementById('max-level-message');
+  
+  if (maxLevel) {
+    // Show max level message
+    if (nextTrickCard) nextTrickCard.style.display = 'none';
+    if (maxLevelMessage) maxLevelMessage.style.display = 'block';
+  } else {
+    // Show next trick card
+    if (nextTrickCard) nextTrickCard.style.display = 'block';
+    if (maxLevelMessage) maxLevelMessage.style.display = 'none';
+    
+    const nextTrick = getNextTrick(state.trickLevel);
+    if (nextTrick) {
+      const nextTrickName = document.getElementById('next-trick-name');
+      const nextTrickDescription = document.getElementById('next-trick-description');
+      const nextTrickReward = document.getElementById('next-trick-reward');
+      const upgradeCost = document.getElementById('upgrade-cost');
+      const upgradeButton = document.getElementById('upgrade-button');
+      
+      if (nextTrickName) {
+        nextTrickName.textContent = nextTrick.name;
+      }
+      if (nextTrickDescription) {
+        nextTrickDescription.textContent = nextTrick.description;
+      }
+      if (nextTrickReward) {
+        nextTrickReward.textContent = formatReward(nextTrick.reward);
+      }
+      if (upgradeCost) {
+        upgradeCost.textContent = nextTrick.cost;
+      }
+      
+      // Enable/disable upgrade button based on affordability
+      if (upgradeButton) {
+        const canAfford = state.kibble >= nextTrick.cost;
+        upgradeButton.disabled = !canAfford;
+        upgradeButton.classList.toggle('disabled', !canAfford);
+      }
+    }
   }
 
   // Add animation when kibble increases
@@ -47,6 +134,20 @@ export function bindEvents(dispatch, actions) {
       trickButton.classList.add('clicked');
       setTimeout(() => {
         trickButton.classList.remove('clicked');
+      }, 100);
+    });
+  }
+
+  // Upgrade button click
+  const upgradeButton = document.getElementById('upgrade-button');
+  if (upgradeButton) {
+    upgradeButton.addEventListener('click', () => {
+      dispatch(actions.purchaseUpgrade());
+      
+      // Add button animation
+      upgradeButton.classList.add('clicked');
+      setTimeout(() => {
+        upgradeButton.classList.remove('clicked');
       }, 100);
     });
   }

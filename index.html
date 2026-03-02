@@ -24,6 +24,19 @@
           </div>
         </div>
 
+        <!-- Current Trick Display -->
+        <div class="current-trick">
+          <h3>Current Trick</h3>
+          <div class="trick-info">
+            <div class="trick-name" id="current-trick-name">Sit</div>
+            <div class="trick-level">Level <span id="current-trick-level">0</span></div>
+          </div>
+          <div class="trick-reward">
+            <span class="reward-label">Reward per click:</span>
+            <span id="current-trick-reward" class="reward-value">1 🦴</span>
+          </div>
+        </div>
+
         <!-- Main Action Button -->
         <div class="button-area">
           <button id="trick-button" class="trick-button">
@@ -32,11 +45,44 @@
           <p class="hint">Click or press spacebar</p>
         </div>
 
+        <!-- Training School -->
+        <div class="training-school">
+          <h3>🎓 Training School</h3>
+          <div id="training-content">
+            <div class="next-trick-card">
+              <div class="next-trick-header">
+                <span class="next-label">Next Trick:</span>
+                <span id="next-trick-name" class="next-trick-name">Shake Paw</span>
+              </div>
+              <div class="next-trick-description" id="next-trick-description">
+                A friendly greeting earns you double kibble.
+              </div>
+              <div class="next-trick-reward">
+                <span class="reward-label">New Reward:</span>
+                <span id="next-trick-reward" class="reward-value">2 🦴</span>
+              </div>
+              <button id="upgrade-button" class="upgrade-button">
+                <span class="button-text">
+                  Train for <span id="upgrade-cost">10</span> 🦴
+                </span>
+              </button>
+            </div>
+            <div id="max-level-message" class="max-level-message" style="display: none;">
+              🏆 Congratulations! You've mastered all tricks!
+            </div>
+          </div>
+        </div>
+
         <!-- Stats -->
         <div class="stats">
           <div class="stat-item">
             <span class="stat-label">Total Clicks:</span>
             <span id="total-clicks" class="stat-value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Total Earned:</span>
+            <span id="total-earned" class="stat-value">0</span>
+            <span class="kibble-icon">🦴</span>
           </div>
         </div>
       </div>
